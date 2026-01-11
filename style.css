@@ -1,0 +1,85 @@
+/* Базовые настройки */
+html {
+    scroll-behavior: smooth; /* Это делает ту самую плавную прокрутку */
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a; /* Темный фон как ты любишь */
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Навигация */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    position: fixed; /* Меню всегда сверху */
+    width: 100%;
+    background: rgba(26, 26, 26, 0.9);
+    top: 0;
+    box-sizing: border-box;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.logo { margin-left: 0; color: #4CAF50; }
+
+/* Секции */
+section {
+    padding: 100px 20px;
+    min-height: 80vh; /* Каждая секция на весь экран */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Всё по центру */
+    text-align: center;
+}
+
+/* Главный экран */
+.hero h1 { font-size: 3rem; margin-bottom: 10px; }
+.hero p { font-size: 1.5rem; color: #cccccc; }
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    padding: 10px 30px;
+    background: #4CAF50; /* Зеленый акцент */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Сетка проектов */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Авто-сетка */
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 40px;
+}
+
+.project-card {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.project-image {
+    background: #444;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
