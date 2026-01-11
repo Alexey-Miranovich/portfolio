@@ -20,6 +20,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth; /* Плавная прокрутка к якорям */
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -59,24 +63,40 @@
 
         nav ul { display: flex; list-style: none; gap: 20px; }
 
-        /* ГЛАВНЫЙ ЭКРАН (HERO) */
+        /* ГЛАВНЫЙ ЭКРАН (HERO) - ОБНОВЛЕННЫЙ */
         .hero {
-            text-align: left;
-            padding: 100px 0;
+            padding: 80px 0;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 3fr 2fr; /* Текст занимает больше места, чем фото */
+            gap: 40px;
+            align-items: center; /* Центрирование по вертикали */
         }
 
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
+            line-height: 1.2;
         }
 
         .hero p {
             font-size: 1.1rem;
-            max-width: 600px;
             margin-bottom: 40px;
             color: #888;
         }
 
+        /* Стили для фото */
+        .hero-image img {
+            width: 100%; /* Растягиваем на всю ширину контейнера */
+            max-width: 450px; /* Ограничиваем максимальный размер на больших экранах */
+            height: auto; /* Сохраняем пропорции (резиновость) */
+            display: block;
+            padding: 5px; /* Отступ от рамки до фото */
+        }
+
+        /* КНОПКА */
         .btn {
             display: inline-block;
             padding: 15px 30px;
@@ -85,6 +105,8 @@
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
+            background: transparent;
+            transition: 0.3s;
         }
 
         .btn:hover {
@@ -136,6 +158,7 @@
             padding: 15px;
             color: var(--text-color);
             font-family: var(--font-main);
+            resize: vertical; /* Разрешить менять размер textarea только по вертикали */
         }
 
         input:focus, textarea:focus {
@@ -143,11 +166,36 @@
             border-color: var(--accent-color);
         }
 
-        /* АДАПТИВНОСТЬ */
+        /* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА) --- */
         @media (max-width: 768px) {
-            .project-item { grid-template-columns: 1fr; }
+            /* Шапка */
+            nav { display: none; } /* Скрываем меню на мобильном для простоты */
+            header { justify-content: center; } /* Центрируем лого */
+            
+            /* Главный экран */
+            .hero { padding: 40px 0; } /* Меньше отступы */
+
+            .hero-content {
+                grid-template-columns: 1fr; /* Одна колонка */
+                text-align: center; /* Центрируем текст */
+                gap: 30px;
+            }
+
+            /* Меняем порядок: фото наверх, текст вниз */
+            .hero-image {
+                order: -1; 
+            }
+
+            .hero-image img {
+                 margin: 0 auto; /* Центрируем само фото */
+                 max-width: 300px; /* Чуть меньше фото на мобильном */
+            }
+
             .hero h1 { font-size: 1.8rem; }
-            nav { display: none; } /* Упрощение для мобилки */
+            
+            /* Остальные блоки */
+            .project-item { grid-template-columns: 1fr; gap: 20px; }
+            form { max-width: 100%; }
         }
     </style>
 </head>
@@ -156,7 +204,7 @@
 <div class="container">
 
     <header>
-        <div class="logo">&lt; Alexey_Neyro /&gt;</div>
+        <div class="logo">&lt; @Alexey_Neyro /&gt;</div>
         <nav>
             <ul>
                 <li><a href="#about">Навыки</a></li>
@@ -167,12 +215,20 @@
     </header>
 
     <section class="hero">
-        <h1>Разработчик сайтов<br>и чат-ботов с AI-интеграцией</h1>
-        <p>
-            Объединяю веб-интерфейсы с мощной логикой на n8n и Salebot. 
-            Создаю системы, где сайт, платежи и база данных работают автоматически.
-        </p>
-        <a href="#contact" class="btn">Обсудить задачу</a>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Разработчик сайтов<br>и чат-ботов с AI-интеграцией</h1>
+                <p>
+                    Объединяю веб-интерфейсы с мощной логикой на n8n и Salebot. 
+                    Создаю системы, где сайт, платежи и база данных работают автоматически.
+                </p>
+                <a href="#contact" class="btn">Обсудить задачу</a>
+            </div>
+            
+            <div class="hero-image">
+                <img src="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Ffoto%2Fmy_foto_portfolio.jpg" alt="Мое фото">
+            </div>
+        </div>
     </section>
 
     <section id="about">
@@ -213,7 +269,7 @@
             <div class="project-info">
                 <p>Полноценный коммерческий сайт. Реализована полная автоматизация: клиент оплачивает заказ, n8n проверяет транзакцию, заносит данные в Supabase и открывает доступ к материалам. Без участия менеджера.</p>
                 <br>
-                <a href="#" style="text-decoration: underline;">Смотреть демо (если есть) -></a>
+                <a href="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Fvideo%2Fkeys_sait.mp4" target="_blank" style="text-decoration: underline;">Смотреть демо -></a>
             </div>
         </div>
 
@@ -226,24 +282,26 @@
             </div>
             <div class="project-info">
                 <p>Чат-бот со сложной логикой сегментации. Умеет прогревать клиента, отвечать на частые вопросы и доводить до продажи. Стабильная работа на платформе Salebot.</p>
+                 <br>
+                 <a href="#" style="text-decoration: underline;">Тестировать бота -></a>
             </div>
         </div>
     </section>
 
     <section id="contact">
         <h2>// Связаться со мной</h2>
-        <p style="margin-top: 10px; color: #888;">Заполните форму, и n8n мгновенно пришлет мне уведомление в Telegram.</p>
+        <p style="margin-top: 10px; color: #888;">Заполните форму ниже. Я увижу заявку в своем Telegram.</p>
         
-        <form action="#">
-            <input type="text" placeholder="Ваше имя" required>
-            <input type="text" placeholder="Ваш Telegram / WhatsApp" required>
-            <textarea rows="5" placeholder="Описание задачи..."></textarea>
-            <button type="submit" class="btn" style="background: transparent; width: 100%;">Отправить</button>
+        <form action="#" method="POST">
+            <input type="text" name="name" placeholder="Ваше имя" required>
+            <input type="text" name="contact" placeholder="Ваш Telegram / WhatsApp" required>
+            <textarea name="message" rows="5" placeholder="Описание задачи..."></textarea>
+            <button type="submit" class="btn">Отправить</button>
         </form>
     </section>
 
-    <footer style="padding: 40px 0; text-align: center; font-size: 0.8rem; color: #555;">
-        <p>&copy; 2026. No-Code & Frontend Development.</p>
+    <footer style="padding: 40px 0; text-align: center; font-size: 0.8rem; color: #555; border-top: 1px solid var(--border-color);">
+        <p>&copy; 2026 Alexey Miranovich. No-Code & Frontend Development.</p>
     </footer>
 
 </div>
