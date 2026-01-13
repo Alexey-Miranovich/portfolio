@@ -168,35 +168,133 @@
 
         /* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА) --- */
         @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            
             /* Шапка */
-            nav { display: none; } /* Скрываем меню на мобильном для простоты */
-            header { justify-content: center; } /* Центрируем лого */
+            nav { display: none; }
+            header { justify-content: center; }
             
             /* Главный экран */
-            .hero { padding: 40px 0; } /* Меньше отступы */
+            .hero { padding: 40px 0; }
 
             .hero-content {
-                grid-template-columns: 1fr; /* Одна колонка */
-                text-align: center; /* Центрируем текст */
+                grid-template-columns: 1fr;
+                text-align: center;
                 gap: 30px;
             }
 
-            /* Меняем порядок: фото наверх, текст вниз */
             .hero-image {
                 order: -1; 
             }
 
             .hero-image img {
-                 margin: 0 auto; /* Центрируем само фото */
-                 max-width: 300px; /* Чуть меньше фото на мобильном */
+                margin: 0 auto;
+                max-width: 250px;
+                width: 100%;
             }
 
             .hero h1 { font-size: 1.8rem; }
             
+            /* Галерея */
+            .gallery {
+                max-width: 100%;
+                width: calc(100vw - 30px);
+                height: 150px;
+            }
+            
+            .gallery img {
+                min-width: 80%;
+                width: 80%;
+            }
+            
             /* Остальные блоки */
-            .project-item { grid-template-columns: 1fr; gap: 20px; }
+            .project-item { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+            .stack-grid { grid-template-columns: 1fr; }
             form { max-width: 100%; }
         }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 10px; }
+            
+            .hero-image img {
+                max-width: 200px;
+            }
+            
+            .hero h1 { font-size: 1.5rem; }
+            
+            .gallery {
+                width: calc(100vw - 20px);
+                height: 120px;
+            }
+            
+            .gallery img {
+                min-width: 75%;
+                width: 75%;
+            }
+        }
+        /* --- ГАЛЕРЕЯ (СЛАЙДЕР) --- */
+.gallery {
+    display: flex;
+    overflow-x: auto;       /* Разрешить прокрутку */
+    gap: 10px;              /* Расстояние между фото */
+    scroll-snap-type: x mandatory; /* Доводка скролла до целого слайда */
+    width: 85%;
+    max-width: 400px;       /* Максимальная ширина галереи */
+    height: 200px;          /* Высота галереи */
+    border: 1px solid var(--border-color);
+    margin-top: 15px;
+    border-radius: 4px;
+    background: #000;
+}
+
+/* Скрываем полосу прокрутки для красоты (Chrome/Safari) */
+.gallery::-webkit-scrollbar {
+    height: 6px;
+}
+.gallery::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+.gallery img {
+    height: 100%;
+    min-width: 100%;        /* Каждое фото на всю ширину галереи */
+    object-fit: cover;      /* Обрезка без искажения */
+    scroll-snap-align: start;
+    cursor: zoom-in;        /* Курсор лупы */
+    transition: opacity 0.3s;
+}
+
+.gallery img:hover {
+    opacity: 0.8;
+}
+
+/* --- ОКНО УВЕЛИЧЕНИЯ (LIGHTBOX) --- */
+.lightbox {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Затемнение фона */
+    display: none;          /* Скрыто по умолчанию */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    cursor: zoom-out;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+}
     </style>
 </head>
 <body>
@@ -265,9 +363,16 @@
                 <div class="tags">
                     <span>38 секций</span> <span>ЮKassa</span> <span>n8n</span> <span>Supabase</span>
                 </div>
+                <div class="gallery">
+                    <img src="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Ffoto%2Fneyro_bistro.png" alt="Скрин 1">
+                    <img src="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Ffoto%2Fneyro_bistro3.png" alt="Скрин 2">
+                    <img src="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Ffoto%2Fneyro_bistro2.png" alt="Скрин 3">
+                </div>
+                    <small style="color: #666; font-size: 0.8rem;">← Листайте скриншоты →</small>
             </div>
             <div class="project-info">
-                <p>Полноценный коммерческий сайт. Реализована полная автоматизация: клиент оплачивает заказ, n8n проверяет транзакцию, заносит данные в Supabase и открывает доступ к материалам. Без участия менеджера.</p>
+                <h3>Полноценный коммерческий сайт</h3>
+                <p>Реализована полная автоматизация: клиент оплачивает заказ, n8n проверяет транзакцию, заносит данные в Supabase и открывает доступ к материалам. Без участия менеджера.</p>
                 <br>
                 <a href="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Fvideo%2Fkeys_sait.mp4" target="_blank" style="text-decoration: underline;">Смотреть демо -></a>
             </div>
@@ -277,13 +382,17 @@
             <div class="project-meta">
                 <h3>Telegram Бот</h3>
                 <div class="tags">
-                    <span>Salebot</span> <span>Telegram</span> <span>Funnel</span>
+                    <span>Salebot</span> <span>Telegram</span> <span>ЮKassa</span> <span>Google Sheets</span>
+                </div>
+                <div class="gallery">
+                    <img src="https://s3.ru1.storage.beget.cloud/267bc875501f-lesson/my_portfolio%2Ffoto%2Fmofu_toys.png" alt="Скрин 1">
                 </div>
             </div>
             <div class="project-info">
-                <p>Чат-бот со сложной логикой сегментации. Умеет прогревать клиента, отвечать на частые вопросы и доводить до продажи. Стабильная работа на платформе Salebot.</p>
+                <h3>Магазин дизайнерских игрушек MofuToys</h3>
+                <p>Чат-бот со сложной логикой сегментации. Умеет прогревать клиента, отвечать на частые вопросы и доводить до продажи. Стабильная работа.</p>
                  <br>
-                 <a href="#" style="text-decoration: underline;">Тестировать бота -></a>
+                 <a href="https://t.me/MofuToys_bot" style="text-decoration: underline;">Тестировать бота -></a>
             </div>
         </div>
     </section>
@@ -306,5 +415,33 @@
 
 </div>
 
+
+<div class="lightbox" id="lightbox">
+    <img src="" alt="Zoomed Image">
+</div>
+
+<script>
+    // Логика работы галереи и увеличения
+    document.addEventListener('DOMContentLoaded', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryImages = document.querySelectorAll('.gallery img');
+
+        // 1. При клике на картинку в галерее
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src; // Берем ссылку нажатой картинки
+                lightbox.classList.add('active'); // Показываем окно
+                document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+            });
+        });
+
+        // 2. При клике на увеличенное фото или фон
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active'); // Скрываем окно
+            document.body.style.overflow = ''; // Возвращаем прокрутку
+        });
+    });
+</script>
 </body>
 </html>
